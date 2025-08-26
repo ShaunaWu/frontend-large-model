@@ -1,39 +1,88 @@
-# 通用HTML/CSS/JS项目
+# DeepSeek API 集成项目
 
-这是一个使用原生HTML、CSS和JavaScript构建的通用项目模板。它包含了基本的文件结构和常用功能，可以作为前端项目的起点。
+这是一个用于集成DeepSeek（深度求索）大模型API的前端项目，提供了完整的API调用示例和用户界面。DeepSeek是专注于AGI研究的中国AI公司，提供高性能的大语言模型服务。
 
 ## 项目结构
 ```
-/agent
-  ├── index.html   # 主HTML文件
-  ├── styles.css   # 样式文件
-  ├── script.js   # JavaScript文件
-  └── README.md    # 项目说明
+/deepseek-api
+  ├── index.html           # 主HTML文件
+  ├── package.json         # 项目配置和依赖
+  ├── src/
+  │   ├── main.js          # 应用入口和UI逻辑
+  │   ├── deepseek-api.js  # DeepSeek API调用封装
+  │   └── style.css        # 样式文件
+  └── vite.config.js       # Vite构建配置
 ```
 
 ## 功能特点
-- 响应式设计：适配各种屏幕尺寸
-- 现代UI：简洁美观的界面设计
-- 交互体验：特性卡片动画效果
-- 暗色模式：支持切换暗色/亮色主题
-- 平滑滚动：页面内导航平滑滚动
+- DeepSeek API调用封装，实现与DeepSeek大模型的对话
+- 简洁的用户界面，自动加载并显示AI回复
+- 使用环境变量存储API密钥，保证安全性
+- 错误处理和加载状态显示
 
-## 使用方法
-1. 将项目文件复制到您的工作目录
-2. 在浏览器中打开index.html文件即可查看效果
-3. 根据您的需求修改HTML、CSS和JavaScript文件
+## 环境配置
 
-## 自定义
-- 替换标题和内容文本以适应您的项目
-- 修改CSS变量以更改颜色方案
-- 添加更多功能到script.js文件
-- 扩展HTML结构以添加更多内容区块
+在项目根目录创建`.env.local`文件，并添加以下环境变量：
+```
+VITE_DEEPSEEK_API_KEY=your_api_key_here
+```
 
-## 响应式设计
-项目在不同屏幕尺寸下都能良好显示：
-- 大屏幕：特性卡片并排显示
-- 平板：调整为两列布局
-- 手机：单列布局，优化阅读体验
+- `VITE_DEEPSEEK_API_KEY`：您的DeepSeek API密钥
 
-## 暗色模式
-点击页面右下角的按钮可以切换暗色/亮色模式，提升夜间浏览体验。
+## 安装和运行
+
+1. 安装依赖：
+   ```bash
+   npm install
+   ```
+
+2. 启动开发服务器：
+   ```bash
+   npm run dev
+   ```
+
+3. 构建生产版本：
+   ```bash
+   npm run build
+   ```
+
+4. 预览生产构建：
+   ```bash
+   npm run preview
+   ```
+
+## API使用说明
+
+项目中封装了`fetchDeepseekResponse`函数，用于调用DeepSeek API：
+
+```javascript
+import { fetchDeepseekResponse } from './deepseek-api.js';
+
+// 调用API并获取响应
+const response = await fetchDeepseekResponse();
+```
+
+目前版本使用固定的系统提示和用户消息。您可以根据需要修改`deepseek-api.js`文件中的`payload`对象来自定义对话内容：
+
+```javascript
+const payload = {
+    model: 'deepseek-chat',
+    messages: [
+        {role: "system", content: "You are a helpful assistant."},
+        {role: "user", content: "你好 Deepseek"}
+    ],
+    stream: false,
+};
+```
+
+## 技术栈
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- Vite 构建工具
+- DeepSeek Open API
+
+## 注意事项
+- 请妥善保管您的API密钥，不要将其提交到代码仓库中
+- DeepSeek API有使用限制和计费规则，请参考DeepSeek官方文档
+- 本项目仅供学习和参考使用，实际应用中请遵守DeepSeek的使用条款
